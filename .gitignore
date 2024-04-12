@@ -1,3 +1,5 @@
 .gitignore
 .idea
-.venv
+.vscode
+minist/data
+minist/minst_model.pth

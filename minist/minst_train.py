@@ -55,11 +55,13 @@ class MinstNet(nn.Module):
 
         self.fc3 = nn.Linear(256, 10)
 
-    # 前向传播
+    # 重载前向传播方法
     def forward(self, x):
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)
+        # (batch_size, out_channels, H, W)
+        # (64, 64, 28, 28) -> (64, x)
         x = x.view(x.size()[0], -1)
         x = self.fc1(x)
         x = self.fc2(x)

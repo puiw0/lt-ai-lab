@@ -1,3 +1,13 @@
+# minst手写识别
+## 0. 实验运行
+- 安装依赖
+
+`pip install -r requirement.txt`
+
+- 运行 minst_train.py 得到模型 minst_model.pth
+
+- 运行 minst_app.py 打开桌面 app 进行手写识别测试
+
 ## 1. 数据集
 
 数据集文件内容

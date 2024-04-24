@@ -6,12 +6,9 @@ import win32gui
 
 from PIL import ImageGrab
 
-from minist.minst_train import MinstNet
+from minst.minst_train import MinstNet
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = MinstNet()
-model.load_state_dict(torch.load("minst_model.pth"))
-model.eval()
 
 
 def get_max_possibility(array):
@@ -78,11 +75,14 @@ class App(tk.Tk):
     def draw_lines(self, event):
         self.x = event.x
         self.y = event.y
-        r = 8
+        r = 10
         self.canvas.create_oval(self.x - r, self.y - r, self.x + r, self.y + r, fill='black')
 
 
 if __name__ == '__main__':
+    model = MinstNet()
+    model.load_state_dict(torch.load("model/minst_model.pth"))
+    model.eval()
     # print(model.state_dict())
     app = App()
     tk.mainloop()

@@ -146,4 +146,4 @@ if __name__ == '__main__':
     print("is gpu cuda available? {}".format(torch.cuda.is_available()))
     trainer = Trainer()
     trainer.train()
-    torch.save(trainer.model.state_dict(), './minst_model.pth')
+    torch.save(trainer.model.state_dict(), 'model/minst_model.pth')

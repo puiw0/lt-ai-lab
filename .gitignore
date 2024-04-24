@@ -1,5 +1,5 @@
 .gitignore
 .idea
 .vscode
-minist/data
-minist/minst_model.pth
+*/data
+*/model

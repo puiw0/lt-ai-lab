@@ -6,11 +6,12 @@ import win32gui
 
 from PIL import ImageGrab
 
-from minst.minst_train import MinstNet
+from minst_train import MinstNet
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
+# todo 预测概率算法并不正确
 def get_max_possibility(array):
     np.maximum(array, 0, out=array)
     sum = np.sum(array)

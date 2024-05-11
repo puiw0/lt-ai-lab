@@ -1,3 +1,5 @@
+import os
+
 from torch.utils.data import *
 from imutils import paths
 import cv2
@@ -23,7 +25,7 @@ class labelFpsDataLoader(Dataset):
         img = cv2.imread(img_name)
         # img = img.astype('float32')
         resizedImage = cv2.resize(img, self.img_size)
-        resizedImage = np.transpose(resizedImage, (2,0,1))
+        resizedImage = np.transpose(resizedImage, (2, 0, 1))
         resizedImage = resizedImage.astype('float32')
         resizedImage /= 255.0
         lbl = img_name.split('/')[-1].rsplit('.', 1)[0].split('-')[-3]
@@ -59,16 +61,15 @@ class labelTestDataLoader(Dataset):
         img = cv2.imread(img_name)
         # img = img.astype('float32')
         resizedImage = cv2.resize(img, self.img_size)
-        resizedImage = np.transpose(resizedImage, (2,0,1))
+        resizedImage = np.transpose(resizedImage, (2, 0, 1))
         resizedImage = resizedImage.astype('float32')
         resizedImage /= 255.0
         lbl = img_name.split('/')[-1].split('.')[0].split('-')[-3]
         return resizedImage, lbl, img_name
 
 
-
 class ChaLocDataLoader(Dataset):
-    def __init__(self, img_dir,imgSize, is_transform=None):
+    def __init__(self, img_dir, imgSize, is_transform=None):
         self.img_dir = img_dir
         self.img_paths = []
         for i in range(len(img_dir)):
@@ -97,7 +98,8 @@ class ChaLocDataLoader(Dataset):
 
         ori_w, ori_h = float(img.shape[1]), float(img.shape[0])
         assert img.shape[0] == 1160
-        new_labels = [(leftUp[0] + rightDown[0])/(2*ori_w), (leftUp[1] + rightDown[1])/(2*ori_h), (rightDown[0]-leftUp[0])/ori_w, (rightDown[1]-leftUp[1])/ori_h]
+        new_labels = [(leftUp[0] + rightDown[0]) / (2 * ori_w), (leftUp[1] + rightDown[1]) / (2 * ori_h),
+                      (rightDown[0] - leftUp[0]) / ori_w, (rightDown[1] - leftUp[1]) / ori_h]
 
         resizedImage = resizedImage.astype('float32')
         # Y = Y.astype('int8')
@@ -107,7 +109,7 @@ class ChaLocDataLoader(Dataset):
         # lbl = map(int, lbl)
         # lbl2 = [[el] for el in lbl]
 
-        # resizedImage = torch.from_numpy(resizedImage).float()
+            # resizedImage = torch.from_numpy(resizedImage).float()
         return resizedImage, new_labels
 
 
@@ -115,10 +117,11 @@ class demoTestDataLoader(Dataset):
     def __init__(self, img_dir, imgSize, is_transform=None):
         self.img_dir = img_dir
         self.img_paths = []
-        for i in range(len(img_dir)):
-            self.img_paths += [el for el in paths.list_images(img_dir[i])]
         # self.img_paths = os.listdir(img_dir)
-        # print self.img_paths
+        self.img_files = os.listdir(img_dir)
+        for i in range(len(self.img_files)):
+            self.img_paths.append(os.path.join(self.img_dir, self.img_files[i]))
+        print(self.img_paths)
         self.img_size = imgSize
         self.is_transform = is_transform
 
@@ -130,7 +133,7 @@ class demoTestDataLoader(Dataset):
         img = cv2.imread(img_name)
         # img = img.astype('float32')
         resizedImage = cv2.resize(img, self.img_size)
-        resizedImage = np.transpose(resizedImage, (2,0,1))
+        resizedImage = np.transpose(resizedImage, (2, 0, 1))
         resizedImage = resizedImage.astype('float32')
         resizedImage /= 255.0
         return resizedImage, img_name
